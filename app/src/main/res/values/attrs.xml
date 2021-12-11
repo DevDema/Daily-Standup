@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="title" format="string" />
+    <attr name="subtitle" format="string"/>
+    <attr name="profile_picture" format="reference" />
+
+    <declare-styleable name="MeetingPersonView">
+        <attr name="title" />
+        <attr name="subtitle" />
+        <attr name="profile_picture" />
+    </declare-styleable>
+    <declare-styleable name="MeetingPersonTalkedView">
+        <attr name="title" />
+        <attr name="subtitle" />
+        <attr name="profile_picture" />
+    </declare-styleable>
+    <declare-styleable name="MeetingPersonSkippedView">
+        <attr name="title" />
+        <attr name="subtitle" />
+        <attr name="profile_picture" />
+        <attr name="bring_back_button_text" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="MeetingPersonActiveView">
+        <attr name="title" />
+        <attr name="subtitle" />
+        <attr name="profile_picture" />
+        <attr name="next_button_text" format="string" />
+        <attr name="skip_button_text" format="string" />
+        <attr name="tasks_button_text" format="string" />
+    </declare-styleable>
+</resources>

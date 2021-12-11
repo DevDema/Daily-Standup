@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="profile_picture_meet_size">100dp</dimen>
+    <dimen name="item_size_circa">100dp</dimen>
+    <dimen name="meet_title_max">150dp</dimen>
+    <dimen name="meet_title_min">120dp</dimen>
+    <dimen name="dimen_tooltip_icon">30dp</dimen>
+</resources>
