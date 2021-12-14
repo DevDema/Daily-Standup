@@ -10,5 +10,9 @@
     <string name="skipped_label">Skipped</string>
     <string name="bring_back_label">Bring back</string>
     <string name="skipped_none_label">No one has been skipped during this meeting yet.</string>
-    <string name="end_meeting_label">End Meeting!</string>
+    <string name="end_meeting_hyphen_label">End Meeting!</string>
+    <string name="end_meeting_label">End Meeting</string>
+    <string name="call_ended_label">Everyone has spoken!</string>
+    <string name="collapse_or_expand_overlay_content_description">Collapse or expand overlay</string>
+    <string name="view_statistics_button">View statistics</string>
 </resources>

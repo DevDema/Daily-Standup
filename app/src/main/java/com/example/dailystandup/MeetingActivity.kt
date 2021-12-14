@@ -2,6 +2,8 @@ package com.example.dailystandup
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
@@ -127,11 +129,23 @@ class MeetingActivity : AppCompatActivity(),
 
     override fun onEnd() {
         meetingTimer.stop()
+
         binding.collapseOverlayButton.visibility = View.INVISIBLE
         binding.collapseOverlayButton.isClickable = false
         binding.leaveMeetingButton.visibility = View.INVISIBLE
+        binding.finishedCardView.visibility = View.VISIBLE
+
+        binding.finishedCardView.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if(binding.finishedCardView.height > 0 || binding.finishedCardView.width > 0) {
+                    val slideDown = AnimationUtils.loadAnimation(applicationContext, R.anim.slide_down)
+                    binding.finishedCardView.startAnimation(slideDown)
+                }
+            }
+        })
 
         collapseOverlay()
+        binding.scrollView.setOnScrollChangeListener { _, _, _, _, _ ->  }
     }
 
     override fun onBroughtBack(person: Person) {

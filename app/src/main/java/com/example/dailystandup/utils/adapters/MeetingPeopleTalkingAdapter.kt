@@ -107,7 +107,7 @@ class MeetingPeopleTalkingAdapter(
 
         tasksButtonText = context.getString(R.string.tasks_label)
         skipButtonText = context.getString(R.string.skip_label)
-        nextEndButtonText = if(dataSet.size == 1) context.getString(R.string.end_meeting_label) else context.getString(R.string.call_next_label)
+        nextEndButtonText = if(dataSet.size == 1) context.getString(R.string.end_meeting_hyphen_label) else context.getString(R.string.call_next_label)
 
         callback.registerSecondIntervalListener(listener)
 
