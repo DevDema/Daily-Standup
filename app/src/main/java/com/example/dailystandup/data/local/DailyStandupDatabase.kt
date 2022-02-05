@@ -17,4 +17,8 @@ abstract class DailyStandupDatabase : RoomDatabase() {
 
     abstract fun meetingDao(): MeetingDao
     abstract fun teamMemberDao(): TeamMemberDao
+
+    companion object {
+        const val DATABASE_NAME = "DailyStandupDatabase"
+    }
 }

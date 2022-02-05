@@ -1,25 +1,26 @@
-package com.example.dailystandup
+package com.example.dailystandup.presentation.meeting
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dailystandup.databinding.ActivityMeetingBinding
+import com.example.dailystandup.MeetingTimer
+import com.example.dailystandup.R
+import com.example.dailystandup.SecondIntervalListener
 import com.example.dailystandup.data.local.model.TeamMember
+import com.example.dailystandup.databinding.ActivityMainBinding
 import com.example.dailystandup.utils.adapters.*
 import com.example.dailystandup.utils.toHHmmssFormat
 
-class DailyStandupActivity : AppCompatActivity(),
-    ActivePeopleAdapterCallback,
-    SkippedPeopleAdapterCallback, SecondIntervalListener {
+class MeetingFragment: Fragment() {
 
     private var totalElapsedSeconds = 0
+    private val viewModel: MeetingViewModel by viewModels()
 
     private val meetingTimer = MeetingTimer().apply {
         registerListener(this@DailyStandupActivity)
@@ -41,7 +42,7 @@ class DailyStandupActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMeetingBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -50,7 +51,8 @@ class DailyStandupActivity : AppCompatActivity(),
         binding.scrollView.setOnScrollChangeListener(defaultScrollListener)
         binding.collapseOverlayButton.setImageDrawable(
             ContextCompat.getDrawable(this,
-                R.drawable.ic_baseline_keyboard_arrow_down_24)
+                R.drawable.ic_baseline_keyboard_arrow_down_24
+            )
         )
         binding.collapseOverlayButton.setOnClickListener { collapseOverlay() }
 
@@ -138,7 +140,9 @@ class DailyStandupActivity : AppCompatActivity(),
         binding.finishedCardView.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if(binding.finishedCardView.height > 0 || binding.finishedCardView.width > 0) {
-                    val slideDown = AnimationUtils.loadAnimation(applicationContext, R.anim.slide_down)
+                    val slideDown = AnimationUtils.loadAnimation(applicationContext,
+                        R.anim.slide_down
+                    )
                     binding.finishedCardView.startAnimation(slideDown)
                 }
             }
@@ -164,7 +168,8 @@ class DailyStandupActivity : AppCompatActivity(),
             .withEndAction {
                 binding.collapseOverlayButton.setImageDrawable(
                     ContextCompat.getDrawable(this,
-                        R.drawable.ic_baseline_keyboard_arrow_up_24))
+                        R.drawable.ic_baseline_keyboard_arrow_up_24
+                    ))
                 binding.collapseOverlayButton.setOnClickListener { expandOverlay() }
             }
     }
@@ -177,7 +182,8 @@ class DailyStandupActivity : AppCompatActivity(),
             .withEndAction {
                 binding.collapseOverlayButton.setImageDrawable(
                     ContextCompat.getDrawable(this,
-                        R.drawable.ic_baseline_keyboard_arrow_down_24)
+                        R.drawable.ic_baseline_keyboard_arrow_down_24
+                    )
                 )
 
                 binding.collapseOverlayButton.setOnClickListener { collapseOverlay() }

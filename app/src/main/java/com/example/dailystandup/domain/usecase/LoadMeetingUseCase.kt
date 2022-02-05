@@ -5,5 +5,5 @@ import com.example.dailystandup.domain.repository.MeetingRepository
 
 class LoadMeetingUseCase(private val meetingRepository: MeetingRepository) {
 
-    suspend fun execute(): List<TeamMember> = meetingRepository.getTeamMembers()
+    suspend fun execute(): List<TeamMember> = meetingRepository.getMeetingAndTM()
 }

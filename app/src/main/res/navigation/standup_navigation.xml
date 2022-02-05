@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/standup_navigation"
+        app:startDestination="@id/meeting_fragment">
+
+    <fragment
+            android:id="@+id/meeting_fragment"
+            android:name="com.example.dailystandup.presentation.meeting.MeetingFragment"
+            android:label="@string/meeting_screen_label"
+            tools:layout="@layout/fragment_meeting" />
+</navigation>

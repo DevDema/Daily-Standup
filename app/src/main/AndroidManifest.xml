@@ -11,7 +11,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.DailyStandup">
 
-        <activity android:name=".DailyStandupActivity"
+        <activity android:name=".presentation.DailyStandupActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

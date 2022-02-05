@@ -40,18 +40,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                                android:id="@+id/party_popper_image"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="5dp"
-                                android:contentDescription="@string/popper_icon_content_description"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toTopOf="@id/finished_title"
-                                app:srcCompat="@drawable/ic_party_popper"/>
+                    <ImageView
+                            android:id="@+id/party_popper_image"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="@string/popper_icon_content_description"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/finished_title"
+                            app:srcCompat="@drawable/ic_party_popper"/>
 
                     <TextView
                             android:id="@+id/finished_title"
@@ -82,7 +82,7 @@
                             app:layout_constraintBottom_toTopOf="@id/end_meeting_button"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                        />
+                            />
 
                     <Button
                             android:id="@+id/end_meeting_button"
