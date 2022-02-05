@@ -1,8 +1,8 @@
 package com.example.dailystandup
 
-import com.example.dailystandup.model.Person
+import com.example.dailystandup.data.local.model.TeamMember
 
 interface SkippedPeopleAdapterCallback {
 
-    fun onBroughtBack(person: Person)
+    fun onBroughtBack(teamMember: TeamMember)
 }

@@ -1,12 +1,12 @@
 package com.example.dailystandup
 
-import com.example.dailystandup.model.Person
+import com.example.dailystandup.data.local.model.TeamMember
 
 interface ActivePeopleAdapterCallback {
 
-    fun onTalked(person: Person, elapsedTalking: Int)
+    fun onTalked(teamMember: TeamMember, elapsedTalking: Int)
 
-    fun onSkipped(person: Person)
+    fun onSkipped(teamMember: TeamMember)
 
     fun onExpanded()
 

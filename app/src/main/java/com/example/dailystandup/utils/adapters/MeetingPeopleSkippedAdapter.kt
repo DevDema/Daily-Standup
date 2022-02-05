@@ -6,10 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailystandup.R
 import com.example.dailystandup.SkippedPeopleAdapterCallback
-import com.example.dailystandup.model.Person
+import com.example.dailystandup.data.local.model.TeamMember
 import com.example.dailystandup.utils.views.MeetingPersonSkippedView
 
-class MeetingPeopleSkippedAdapter(private val context: Context, private val skippedPeopleAdapterCallback: SkippedPeopleAdapterCallback, val dataSet: MutableList<Person>) :
+class MeetingPeopleSkippedAdapter(private val context: Context, private val skippedPeopleAdapterCallback: SkippedPeopleAdapterCallback, val dataSet: MutableList<TeamMember>) :
     RecyclerView.Adapter<MeetingPeopleSkippedAdapter.ViewHolder>() {
     class ViewHolder(context: Context) : RecyclerView.ViewHolder(MeetingPersonSkippedView(context))
 
@@ -37,8 +37,8 @@ class MeetingPeopleSkippedAdapter(private val context: Context, private val skip
 
     override fun getItemCount() = dataSet.size
 
-    fun add(personWhoTalked: Person) {
-        dataSet.add(0, personWhoTalked)
+    fun add(teamMemberWhoTalked: TeamMember) {
+        dataSet.add(0, teamMemberWhoTalked)
         notifyItemInserted(0)
     }
 }

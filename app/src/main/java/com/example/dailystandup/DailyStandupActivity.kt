@@ -11,18 +11,18 @@ import androidx.core.view.marginTop
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailystandup.databinding.ActivityMeetingBinding
-import com.example.dailystandup.model.Person
+import com.example.dailystandup.data.local.model.TeamMember
 import com.example.dailystandup.utils.adapters.*
 import com.example.dailystandup.utils.toHHmmssFormat
 
-class MeetingActivity : AppCompatActivity(),
+class DailyStandupActivity : AppCompatActivity(),
     ActivePeopleAdapterCallback,
     SkippedPeopleAdapterCallback, SecondIntervalListener {
 
     private var totalElapsedSeconds = 0
 
     private val meetingTimer = MeetingTimer().apply {
-        registerListener(this@MeetingActivity)
+        registerListener(this@DailyStandupActivity)
     }
 
     private lateinit var binding: ActivityMeetingBinding
@@ -61,14 +61,14 @@ class MeetingActivity : AppCompatActivity(),
 
     private fun setMockAdapters() {
         val personList = mutableListOf(
-            Person("Deborah", "Santucci", "Frontend"),
-            Person("Andrea", "De Matteis", "Mobile"),
-            Person("Coglione", "De Muraris", "Frontend"),
-            Person("Eva", "Baldabocchini", "Frontend"),
-            Person("Matteo", "Maisia", "Backend"),
-            Person("Matteo", "Mistura", "Backend"),
-            Person("Paolo", "Andrea", "Backend"),
-            Person("Silvio", "Villani", "Backend")
+            TeamMember("Deborah", "Santucci", "Frontend"),
+            TeamMember("Andrea", "De Matteis", "Mobile"),
+            TeamMember("Coglione", "De Muraris", "Frontend"),
+            TeamMember("Eva", "Baldabocchini", "Frontend"),
+            TeamMember("Matteo", "Maisia", "Backend"),
+            TeamMember("Matteo", "Mistura", "Backend"),
+            TeamMember("Paolo", "Andrea", "Backend"),
+            TeamMember("Silvio", "Villani", "Backend")
         )
 
         binding.recyclerViewActive.layoutManager = GridLayoutManager(this, 2).apply {
@@ -93,16 +93,16 @@ class MeetingActivity : AppCompatActivity(),
         binding.recyclerViewSkipped.adapter = MeetingPeopleSkippedAdapter(this, this, mutableListOf())
     }
 
-    override fun onTalked(person: Person, elapsedTalking: Int) {
+    override fun onTalked(teamMember: TeamMember, elapsedTalking: Int) {
         binding.talkedLabel.visibility = View.VISIBLE
         binding.talkedDivider.visibility = View.VISIBLE
 
-        (binding.recyclerViewTalked.adapter as? MeetingPeopleTalkedAdapter)?.add(person, elapsedTalking)
+        (binding.recyclerViewTalked.adapter as? MeetingPeopleTalkedAdapter)?.add(teamMember, elapsedTalking)
     }
 
-    override fun onSkipped(person: Person) {
+    override fun onSkipped(teamMember: TeamMember) {
         setSkippedUsers()
-        (binding.recyclerViewSkipped.adapter as? MeetingPeopleSkippedAdapter)?.add(person)
+        (binding.recyclerViewSkipped.adapter as? MeetingPeopleSkippedAdapter)?.add(teamMember)
     }
 
     override fun onCollapsed() {
@@ -148,8 +148,8 @@ class MeetingActivity : AppCompatActivity(),
         binding.scrollView.setOnScrollChangeListener { _, _, _, _, _ ->  }
     }
 
-    override fun onBroughtBack(person: Person) {
-        (binding.recyclerViewActive.adapter as? MeetingPeopleTalkingAdapter)?.add(person)
+    override fun onBroughtBack(teamMember: TeamMember) {
+        (binding.recyclerViewActive.adapter as? MeetingPeopleTalkingAdapter)?.add(teamMember)
 
         if((binding.recyclerViewSkipped.adapter as? MeetingPeopleSkippedAdapter)?.dataSet?.isEmpty() == true) {
             setNoSkippedUsers()

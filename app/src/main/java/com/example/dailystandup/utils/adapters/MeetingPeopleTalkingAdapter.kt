@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailystandup.ActivePeopleAdapterCallback
 import com.example.dailystandup.R
 import com.example.dailystandup.SecondIntervalListener
-import com.example.dailystandup.model.Person
+import com.example.dailystandup.data.local.model.TeamMember
 import com.example.dailystandup.utils.toHHmmssFormat
 import com.example.dailystandup.utils.views.MeetingPersonActiveView
 import com.example.dailystandup.utils.views.MeetingPersonView
@@ -16,7 +16,7 @@ import com.google.android.material.button.MaterialButton
 class MeetingPeopleTalkingAdapter(
     private val context: Context,
     private val callback: ActivePeopleAdapterCallback,
-    val dataSet: MutableList<Person>
+    val dataSet: MutableList<TeamMember>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ViewHolder(context: Context) : RecyclerView.ViewHolder(MeetingPersonView(context))
     class ViewHolderActive(context: Context) :
@@ -142,13 +142,13 @@ class MeetingPeopleTalkingAdapter(
         notifyItemRemoved(currentPosition)
     }
 
-    fun add(person: Person) {
-        dataSet.add(person)
+    fun add(teamMember: TeamMember) {
+        dataSet.add(teamMember)
 
         if (isCollapsed && collapsableDataSet.size > 5) {
             notifyItemChanged(5)
         } else {
-            collapsableDataSet.add(person)
+            collapsableDataSet.add(teamMember)
             notifyItemInserted(collapsableDataSet.size - 1)
         }
     }
