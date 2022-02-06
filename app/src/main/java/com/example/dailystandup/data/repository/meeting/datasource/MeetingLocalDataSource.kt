@@ -1,4 +1,4 @@
-package com.example.dailystandup.data.local.repository.meeting.datasource
+package com.example.dailystandup.data.repository.meeting.datasource
 
 import com.example.dailystandup.data.local.model.Meeting
 import com.example.dailystandup.data.local.model.wrapper.MeetingAndTeamMembers

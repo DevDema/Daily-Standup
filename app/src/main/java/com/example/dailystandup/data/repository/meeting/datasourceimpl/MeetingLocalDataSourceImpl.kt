@@ -1,9 +1,9 @@
-package com.example.dailystandup.data.local.repository.meeting.datasourceimpl
+package com.example.dailystandup.data.repository.meeting.datasourceimpl
 
 import com.example.dailystandup.data.local.dao.MeetingDao
 import com.example.dailystandup.data.local.model.Meeting
 import com.example.dailystandup.data.local.model.wrapper.MeetingAndTeamMembers
-import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingLocalDataSource
+import com.example.dailystandup.data.repository.meeting.datasource.MeetingLocalDataSource
 
 class MeetingLocalDataSourceImpl(private val meetingDao: MeetingDao): MeetingLocalDataSource {
 

@@ -7,8 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.dailystandup.data.local.DailyStandupDatabase
 import com.example.dailystandup.data.local.model.Meeting
-import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingLocalDataSource
-import com.example.dailystandup.data.local.repository.meeting.datasourceimpl.MeetingLocalDataSourceImpl
+import com.example.dailystandup.data.repository.meeting.datasource.MeetingLocalDataSource
+import com.example.dailystandup.data.repository.meeting.datasourceimpl.MeetingLocalDataSourceImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test

@@ -1,8 +1,8 @@
-package com.example.dailystandup.data.local.repository.meeting
+package com.example.dailystandup.data.repository.meeting
 
 import com.example.dailystandup.data.local.model.wrapper.MeetingAndTeamMembers
-import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingCacheDataSource
-import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingLocalDataSource
+import com.example.dailystandup.data.repository.meeting.datasource.MeetingCacheDataSource
+import com.example.dailystandup.data.repository.meeting.datasource.MeetingLocalDataSource
 import com.example.dailystandup.domain.repository.MeetingRepository
 
 class MeetingRepositoryImpl(

@@ -1,7 +1,7 @@
 package com.example.dailystandup.presentation.di.core
 
-import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingCacheDataSource
-import com.example.dailystandup.data.local.repository.meeting.datasourceimpl.MeetingCacheDataSourceImpl
+import com.example.dailystandup.data.repository.meeting.datasource.MeetingCacheDataSource
+import com.example.dailystandup.data.repository.meeting.datasourceimpl.MeetingCacheDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
