@@ -11,6 +11,9 @@ interface TeamMemberDao {
     @Query("SELECT * FROM team_member_table WHERE team_member_table.team_id = :teamId")
     suspend fun getTeamMembers(teamId: Long): List<TeamMember>
 
+    @Query("SELECT * FROM team_member_table WHERE team_member_table.id = :teamMemberId")
+    suspend fun getTeamMember(teamMemberId: Long): TeamMember
+
     @Insert
     suspend fun saveTeamMember(teamMember: TeamMember): Long
 }
