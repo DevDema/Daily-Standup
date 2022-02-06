@@ -3,6 +3,9 @@ package com.example.dailystandup.presentation.di.core
 import com.example.dailystandup.data.repository.meeting.MeetingRepositoryImpl
 import com.example.dailystandup.data.repository.meeting.datasource.MeetingCacheDataSource
 import com.example.dailystandup.data.repository.meeting.datasource.MeetingLocalDataSource
+import com.example.dailystandup.data.repository.meetingteammember.MeetingTeamMemberRepositoryImpl
+import com.example.dailystandup.data.repository.meetingteammember.datasource.MeetingTeamMemberCacheDataSource
+import com.example.dailystandup.data.repository.meetingteammember.datasource.MeetingTeamMemberLocalDataSource
 import com.example.dailystandup.data.repository.team.TeamRepositoryImpl
 import com.example.dailystandup.data.repository.team.datasource.TeamCacheDataSource
 import com.example.dailystandup.data.repository.team.datasource.TeamLocalDataSource
@@ -10,6 +13,7 @@ import com.example.dailystandup.data.repository.teammember.TeamMemberRepositoryI
 import com.example.dailystandup.data.repository.teammember.datasource.TeamMemberCacheDataSource
 import com.example.dailystandup.data.repository.teammember.datasource.TeamMemberLocalDataSource
 import com.example.dailystandup.domain.repository.MeetingRepository
+import com.example.dailystandup.domain.repository.MeetingTeamMemberRepository
 import com.example.dailystandup.domain.repository.TeamMemberRepository
 import com.example.dailystandup.domain.repository.TeamRepository
 import dagger.Module
@@ -45,4 +49,15 @@ class RepositoryModule {
         teamLocalDataSource: TeamLocalDataSource
     ): TeamRepository =
         TeamRepositoryImpl(teamCacheDataSource, teamLocalDataSource)
+
+    @Singleton
+    @Provides
+    fun provideMeetingTeamMemberRepository(
+        meetingTeamMemberCacheDataSource: MeetingTeamMemberCacheDataSource,
+        meetingTeamMemberLocalDataSource: MeetingTeamMemberLocalDataSource
+    ): MeetingTeamMemberRepository =
+        MeetingTeamMemberRepositoryImpl(
+            meetingTeamMemberCacheDataSource,
+            meetingTeamMemberLocalDataSource
+        )
 }

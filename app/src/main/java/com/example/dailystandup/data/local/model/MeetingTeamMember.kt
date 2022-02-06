@@ -17,7 +17,7 @@ import androidx.room.*
     indices = [Index(value = ["team_member_id"]), Index(value = ["meeting_id"])]
 )
 data class MeetingTeamMember(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     @ColumnInfo(name = "meeting_id")
     val meetingId: Long,

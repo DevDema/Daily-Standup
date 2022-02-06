@@ -7,4 +7,6 @@ interface TeamMemberLocalDataSource {
     suspend fun getTeamMember(teamMemberId: Long): TeamMember
 
     suspend fun getTeamMembers(teamId: Long): List<TeamMember>
+
+    suspend fun saveTeamMember(teamMember: TeamMember): Long
 }

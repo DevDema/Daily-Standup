@@ -8,4 +8,6 @@ interface MeetingLocalDataSource {
     suspend fun getMeetingAndTM(meetingId: Long): MeetingAndTeamMembers
 
     suspend fun saveMeeting(meeting: Meeting): Long
+
+    suspend fun getMeeting(meetingId: Long): Meeting
 }

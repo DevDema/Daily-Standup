@@ -9,5 +9,6 @@ class TeamMemberLocalDataSourceImpl(private val teamMemberDao: TeamMemberDao): T
 
     override suspend fun getTeamMembers(teamId: Long): List<TeamMember> = teamMemberDao.getTeamMembers(teamId)
 
-
+    override suspend fun saveTeamMember(teamMember: TeamMember): Long =
+        teamMemberDao.saveTeamMember(teamMember)
 }

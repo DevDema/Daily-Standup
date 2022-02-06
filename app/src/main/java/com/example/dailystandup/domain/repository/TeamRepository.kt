@@ -8,4 +8,5 @@ interface TeamRepository {
 
     suspend fun getTeams(): List<Team>
 
+    suspend fun saveTeam(team: Team): Long
 }

@@ -7,9 +7,11 @@ import com.example.dailystandup.data.repository.meeting.datasource.MeetingLocalD
 
 class MeetingLocalDataSourceImpl(private val meetingDao: MeetingDao): MeetingLocalDataSource {
 
+    override suspend fun getMeeting(meetingId: Long): Meeting =
+        meetingDao.getMeeting(meetingId)
+
     override suspend fun getMeetingAndTM(meetingId: Long): MeetingAndTeamMembers =
         meetingDao.getMeetingAndTeamMembers(meetingId)
 
     override suspend fun saveMeeting(meeting: Meeting) = meetingDao.saveMeeting(meeting)
-
 }

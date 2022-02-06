@@ -17,7 +17,7 @@ import androidx.room.*
     indices = [ Index(value = ["team_member_id"]), Index(value = ["meeting_id"])]
 )
 data class TimeStatistics(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     @ColumnInfo(name = "time_millis")
     val timeMillis: Long,

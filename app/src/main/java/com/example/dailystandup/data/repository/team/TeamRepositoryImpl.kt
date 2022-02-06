@@ -14,6 +14,16 @@ class TeamRepositoryImpl(
 
     override suspend fun getTeams(): List<Team> = getTeamsFromDb()
 
+    override suspend fun saveTeam(team: Team): Long {
+        val id = teamLocalDataSource.saveTeam(team)
+
+        if(id != -1L) {
+            teamCacheDataSource.saveTeam(team)
+        }
+
+        return id
+    }
+
     private suspend fun getTeamsFromDb(): List<Team> = getTeamsFromCache().run {
         return if(this == null) {
             val local = teamLocalDataSource.getTeams()
@@ -25,6 +35,10 @@ class TeamRepositoryImpl(
             local
         } else this
     }
+
+
     private suspend fun getTeamsFromCache(): List<Team>? =
         teamCacheDataSource.getTeams()
+
+
 }
