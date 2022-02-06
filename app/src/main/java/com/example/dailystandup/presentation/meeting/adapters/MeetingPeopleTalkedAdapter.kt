@@ -23,11 +23,11 @@ class MeetingPeopleTalkedAdapter(
         (holder.itemView as MeetingPersonTalkedView).run {
             val person = dataSet[position].member
             val image = dataSet[position].avatar
-            val elapsedTalking = dataSet[position].second
+            val elapsedTalking = dataSet[position].timeMillis
 
             setCardBackgroundColor(ContextCompat.getColor(context, R.color.gray_200))
             title = "${person.name} ${person.surname}"
-            subtitle = person.team
+            subtitle = person.teamId.toString() // TODO: retrieve the team too
 
             setElapsedTime(elapsedTalking)
             setProfilePicture(image)

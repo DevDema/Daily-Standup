@@ -11,10 +11,10 @@ class MeetingAndTeamMembers(
     @Embedded
     val meeting: Meeting,
 
-    @Relation(entity = Meeting::class, parentColumn = "meeting_id", entityColumn = "team_member_id", associateBy = Junction(
+    @Relation(entity = TeamMember::class, parentColumn = "id", entityColumn = "id", associateBy = Junction(
         value = MeetingTeamMember::class,
-        parentColumn = "id",
-        entityColumn = "id"
+        parentColumn = "meeting_id",
+        entityColumn = "team_member_id"
     ))
     val teamMembers: List<TeamMember>
 )

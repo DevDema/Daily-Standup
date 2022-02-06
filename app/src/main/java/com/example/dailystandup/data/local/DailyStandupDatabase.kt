@@ -4,12 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.dailystandup.data.local.dao.MeetingDao
 import com.example.dailystandup.data.local.dao.TeamMemberDao
-import com.example.dailystandup.data.local.model.Meeting
-import com.example.dailystandup.data.local.model.MeetingTeamMember
-import com.example.dailystandup.data.local.model.TeamMember
+import com.example.dailystandup.data.local.model.*
 
 @Database(
-    entities = [TeamMember::class, Meeting::class, MeetingTeamMember::class],
+    entities = [TeamMember::class, Meeting::class, MeetingTeamMember::class, TimeStatistics::class, Team::class],
     version = 1,
     exportSchema = false
 )

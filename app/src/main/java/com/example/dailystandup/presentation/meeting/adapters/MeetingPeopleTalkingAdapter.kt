@@ -57,7 +57,7 @@ class MeetingPeopleTalkingAdapter(
         val image = memberWrapper.avatar
 
         title = "${person.name} ${person.surname}"
-        subtitle = person.team
+        subtitle = person.teamId.toString() // TODO: retrieve the team too
 
         setProfilePicture(image)
 
@@ -92,7 +92,7 @@ class MeetingPeopleTalkingAdapter(
         val image = collapsableDataSet[position].avatar
 
         title = "${person.name} ${person.surname}"
-        subtitle = person.team
+        subtitle = person.teamId.toString() // TODO: retrieve the team too
 
         setProfilePicture(image)
     }

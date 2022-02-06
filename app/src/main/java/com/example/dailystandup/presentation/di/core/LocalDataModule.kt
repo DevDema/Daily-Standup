@@ -5,13 +5,16 @@ import com.example.dailystandup.data.local.repository.meeting.datasource.Meeting
 import com.example.dailystandup.data.local.repository.meeting.datasourceimpl.MeetingLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class LocalDataModule {
 
-    @Provides
     @Singleton
+    @Provides
     fun provideMeetingLocalDataSource(meetingDao: MeetingDao): MeetingLocalDataSource =
         MeetingLocalDataSourceImpl(meetingDao)
 

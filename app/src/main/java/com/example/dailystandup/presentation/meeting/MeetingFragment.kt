@@ -116,8 +116,7 @@ class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAd
                 if (talkedList.isEmpty()) View.GONE else View.VISIBLE
 
             (binding.recyclerViewTalked.adapter as MeetingPeopleTalkedAdapter).handle(
-                talkedList,
-                elapsedTalking
+                talkedList
             )
 
             val skippedList = grouped[TeamMemberStatus.SKIPPED] ?: emptyList()
@@ -131,7 +130,7 @@ class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAd
         }
     }
 
-    override fun onTalked(teamMember: TeamMember, elapsedTalking: Int) =
+    override fun onTalked(teamMember: TeamMember, elapsedTalking: Long) =
         viewModel.setTalked(teamMember, elapsedTalking)
 
     override fun onSkipped(teamMember: TeamMember) =

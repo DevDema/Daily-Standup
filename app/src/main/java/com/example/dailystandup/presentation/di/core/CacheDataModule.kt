@@ -4,9 +4,12 @@ import com.example.dailystandup.data.local.repository.meeting.datasource.Meeting
 import com.example.dailystandup.data.local.repository.meeting.datasourceimpl.MeetingCacheDataSourceImpl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class CacheDataModule {
 
     @Singleton

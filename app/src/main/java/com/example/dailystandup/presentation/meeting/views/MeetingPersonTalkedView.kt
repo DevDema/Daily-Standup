@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.dailystandup.R
 import com.example.dailystandup.databinding.LayoutPersonTalkedBinding
+import com.example.dailystandup.utils.toHHmmssFormat
 
 open class MeetingPersonTalkedView(context: Context, attrs: AttributeSet?, defStyle: Int): CardView(context, attrs, defStyle) {
     private lateinit var binding: LayoutPersonTalkedBinding
@@ -25,7 +26,7 @@ open class MeetingPersonTalkedView(context: Context, attrs: AttributeSet?, defSt
         get() = binding.timer.text
         set(value) { binding.timer.text = value }
 
-    var elapsedSeconds: Int = 0
+    var elapsedSeconds: Long = 0
         private set
 
     constructor(context: Context): this(context, null, 0)
@@ -60,7 +61,7 @@ open class MeetingPersonTalkedView(context: Context, attrs: AttributeSet?, defSt
         setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
     }
 
-    fun setElapsedTime(elapsedSeconds: Int) {
+    fun setElapsedTime(elapsedSeconds: Long) {
         this.elapsedSeconds = elapsedSeconds
 
         binding.timer.text = elapsedSeconds.toHHmmssFormat()

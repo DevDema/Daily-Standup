@@ -6,9 +6,12 @@ import com.example.dailystandup.data.local.repository.meeting.datasource.Meeting
 import com.example.dailystandup.domain.repository.MeetingRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class RepositoryModule {
 
     @Singleton

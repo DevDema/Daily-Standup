@@ -5,9 +5,12 @@ import com.example.dailystandup.domain.usecase.CloseMeetingUseCase
 import com.example.dailystandup.domain.usecase.LoadMeetingUseCase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class UseCaseModule {
 
     @Singleton

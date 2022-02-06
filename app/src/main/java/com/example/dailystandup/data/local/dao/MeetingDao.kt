@@ -13,6 +13,6 @@ interface MeetingDao {
     suspend fun getMeeting(): List<Meeting>
 
     @Transaction
-    @Query("SELECT * FROM meeting_table INNER JOIN meeting_team_member_table ON meeting_table.id = meeting_team_member_table.id WHERE id = :meetingId")
+    @Query("SELECT * FROM meeting_table INNER JOIN meeting_team_member_table ON meeting_table.id = meeting_team_member_table.meeting_id WHERE meeting_table.id = :meetingId")
     suspend fun getMeetingAndTeamMembers(meetingId: Long): MeetingAndTeamMembers
 }

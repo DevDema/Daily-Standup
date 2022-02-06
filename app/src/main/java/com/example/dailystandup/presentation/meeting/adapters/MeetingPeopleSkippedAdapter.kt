@@ -28,7 +28,7 @@ class MeetingPeopleSkippedAdapter(
 
             setCardBackgroundColor(ContextCompat.getColor(context, R.color.gray_200))
             title = "${person.name} ${person.surname}"
-            subtitle = person.team
+            subtitle = person.teamId.toString() // TODO: retrieve the team too
 
             setProfilePicture(image)
             setOnClickBringBackListener {
