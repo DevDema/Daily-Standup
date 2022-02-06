@@ -19,7 +19,9 @@ import com.example.dailystandup.data.local.model.TeamMember
 import com.example.dailystandup.databinding.FragmentMeetingBinding
 import com.example.dailystandup.presentation.meeting.adapters.*
 import com.example.dailystandup.utils.toHHmmssFormat
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAdapterCallback {
     private lateinit var binding: FragmentMeetingBinding
     private val viewModel: MeetingViewModel by viewModels()
@@ -40,10 +42,6 @@ class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAd
         super.onCreate(savedInstanceState)
 
         viewModel.loadMeeting()
-
-        viewModel.secondPassed.observe(viewLifecycleOwner) {
-            binding.timer.text = it.toHHmmssFormat()
-        }
     }
 
     override fun onCreateView(
@@ -93,6 +91,10 @@ class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAd
         binding.noSkippedUsers.visibility = View.VISIBLE
         binding.recyclerViewSkipped.visibility = View.INVISIBLE
 
+        viewModel.secondPassed.observe(viewLifecycleOwner) {
+            binding.timer.text = it.toHHmmssFormat()
+        }
+
         viewModel.teamMembers.observe(viewLifecycleOwner) { listWrapper ->
             val grouped = listWrapper.groupBy { it.status }
 
@@ -130,14 +132,17 @@ class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAd
         }
     }
 
-    override fun onTalked(teamMember: TeamMember, elapsedTalking: Long) =
+    override fun onTalked(teamMember: TeamMember, elapsedTalking: Long) {
         viewModel.setTalked(teamMember, elapsedTalking)
+    }
 
-    override fun onSkipped(teamMember: TeamMember) =
+    override fun onSkipped(teamMember: TeamMember) {
         viewModel.setSkipped(teamMember)
+    }
 
-    override fun onBroughtBack(teamMember: TeamMember) =
+    override fun onBroughtBack(teamMember: TeamMember) {
         viewModel.setTalking(teamMember)
+    }
 
     override fun onCollapsed() {
         binding.scrollView.setOnScrollChangeListener(defaultScrollListener)

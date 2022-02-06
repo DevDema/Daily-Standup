@@ -20,6 +20,8 @@ class MeetingViewModel @Inject constructor(
     private val closeMeetingUseCase: CloseMeetingUseCase
 ) : ViewModel() {
 
+    private lateinit var teamMemberList: List<TeamMemberWrapper>
+
     private val _meeting: MutableLiveData<Meeting> by lazy {
         MutableLiveData<Meeting>()
     }
@@ -49,14 +51,15 @@ class MeetingViewModel @Inject constructor(
 
     fun loadMeeting() = viewModelScope.launch(Dispatchers.IO) {
         loadMeetingUseCase.execute(0).let { meetingAndMembers ->
-            _teamMembers.postValue(
-                meetingAndMembers.teamMembers.mapIndexed { index, member ->
-                    TeamMemberWrapper(
-                        member,
-                        if (index == 0) TeamMemberStatus.TALKING else TeamMemberStatus.COMING
-                    )
-                }
-            )
+            val list = meetingAndMembers.teamMembers.mapIndexed { index, member ->
+                TeamMemberWrapper(
+                    member,
+                    if (index == 0) TeamMemberStatus.TALKING else TeamMemberStatus.COMING
+                )
+            }
+            teamMemberList = list
+
+            _teamMembers.postValue(list)
 
             _meeting.postValue(
                 meetingAndMembers.meeting
@@ -70,15 +73,34 @@ class MeetingViewModel @Inject constructor(
         countDownTimer.cancel()
     }
 
-    fun setTalked(teamMember: TeamMember, elapsedTalking: Long) {
-        TODO("Not yet implemented")
+    fun setTalked(teamMember: TeamMember, elapsedTalking: Long) = viewModelScope.launch(Dispatchers.IO) {
+        teamMemberList
+            .first { teamMember.id == it.member.id }
+            .run {
+                timeMillis = elapsedTalking
+                status = TeamMemberStatus.TALKED
+            }
+
+        _teamMembers.postValue(teamMemberList)
     }
 
-    fun setSkipped(teamMember: TeamMember) {
-        TODO("Not yet implemented")
+    fun setSkipped(teamMember: TeamMember) = viewModelScope.launch(Dispatchers.IO) {
+        teamMemberList
+            .first { teamMember.id == it.member.id }
+            .run {
+                status = TeamMemberStatus.SKIPPED
+            }
+
+        _teamMembers.postValue(teamMemberList)
     }
 
-    fun setTalking(teamMember: TeamMember) {
-        TODO("Not yet implemented")
+    fun setTalking(teamMember: TeamMember) = viewModelScope.launch(Dispatchers.IO) {
+        teamMemberList
+            .first { teamMember.id == it.member.id }
+            .run {
+                status = TeamMemberStatus.TALKING
+            }
+
+        _teamMembers.postValue(teamMemberList)
     }
 }

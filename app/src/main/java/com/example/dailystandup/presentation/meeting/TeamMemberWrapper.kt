@@ -5,7 +5,7 @@ import com.example.dailystandup.data.local.model.TeamMember
 
 class TeamMemberWrapper(
     val member: TeamMember,
-    val status: TeamMemberStatus = TeamMemberStatus.COMING,
+    var status: TeamMemberStatus = TeamMemberStatus.COMING,
     val avatar: Bitmap? = null,
     var timeMillis: Long = 0
 )

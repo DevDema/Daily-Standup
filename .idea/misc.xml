@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/button_gray_next_selector.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/button_green_next_selector.xml" value="0.11006944444444444" />
         <entry key="app/src/main/res/drawable/button_next_selector.xml" value="0.1375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12335526315789473" />
         <entry key="app/src/main/res/layout/activity_meeting.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_meeting.xml" value="0.23684210526315788" />
         <entry key="app/src/main/res/layout/layout_person.xml" value="0.12" />
