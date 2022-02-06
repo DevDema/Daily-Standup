@@ -1,32 +1,29 @@
 package com.example.dailystandup.presentation.meeting
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewTreeObserver
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dailystandup.MeetingTimer
+import com.example.dailystandup.ActivePeopleAdapterCallback
 import com.example.dailystandup.R
-import com.example.dailystandup.SecondIntervalListener
+import com.example.dailystandup.SkippedPeopleAdapterCallback
 import com.example.dailystandup.data.local.model.TeamMember
-import com.example.dailystandup.databinding.ActivityMainBinding
-import com.example.dailystandup.utils.adapters.*
+import com.example.dailystandup.databinding.FragmentMeetingBinding
+import com.example.dailystandup.presentation.meeting.adapters.*
 import com.example.dailystandup.utils.toHHmmssFormat
 
-class MeetingFragment: Fragment() {
-
-    private var totalElapsedSeconds = 0
+class MeetingFragment : Fragment(), ActivePeopleAdapterCallback, SkippedPeopleAdapterCallback {
+    private lateinit var binding: FragmentMeetingBinding
     private val viewModel: MeetingViewModel by viewModels()
 
-    private val meetingTimer = MeetingTimer().apply {
-        registerListener(this@DailyStandupActivity)
-    }
-
-    private lateinit var binding: ActivityMeetingBinding
     private val defaultScrollListener =
         View.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             val dy = scrollY - oldScrollY
@@ -42,81 +39,109 @@ class MeetingFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        viewModel.loadMeeting()
 
-        setContentView(binding.root)
+        viewModel.secondPassed.observe(viewLifecycleOwner) {
+            binding.timer.text = it.toHHmmssFormat()
+        }
+    }
 
-        setMockAdapters()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        binding = FragmentMeetingBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.scrollView.setOnScrollChangeListener(defaultScrollListener)
         binding.collapseOverlayButton.setImageDrawable(
-            ContextCompat.getDrawable(this,
+            ContextCompat.getDrawable(
+                requireContext(),
                 R.drawable.ic_baseline_keyboard_arrow_down_24
             )
         )
         binding.collapseOverlayButton.setOnClickListener { collapseOverlay() }
 
-        meetingTimer.start()
-
-        setNoSkippedUsers()
-    }
-
-    private fun setMockAdapters() {
-        val personList = mutableListOf(
-            TeamMember("Deborah", "Santucci", "Frontend"),
-            TeamMember("Andrea", "De Matteis", "Mobile"),
-            TeamMember("Coglione", "De Muraris", "Frontend"),
-            TeamMember("Eva", "Baldabocchini", "Frontend"),
-            TeamMember("Matteo", "Maisia", "Backend"),
-            TeamMember("Matteo", "Mistura", "Backend"),
-            TeamMember("Paolo", "Andrea", "Backend"),
-            TeamMember("Silvio", "Villani", "Backend")
-        )
-
-        binding.recyclerViewActive.layoutManager = GridLayoutManager(this, 2).apply {
+        binding.recyclerViewActive.layoutManager = GridLayoutManager(requireContext(), 2).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int = if (position == 0 ||
                     binding.recyclerViewActive.adapter!!.getItemViewType(position) == MeetingPeopleTalkingAdapter.MeetingPersonViewType.MORE.ordinal
                 ) 2 else 1
             }
         }
-
         binding.recyclerViewActive.addItemDecoration(MeetingPeopleItemDecoration())
-        binding.recyclerViewActive.adapter = MeetingPeopleTalkingAdapter(this, this, personList)
 
         binding.recyclerViewTalked.addItemDecoration(MeetingPeopleTalkedItemDecoration())
         binding.recyclerViewTalked.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewTalked.adapter = MeetingPeopleTalkedAdapter(this, mutableListOf())
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewTalked.adapter =
+            MeetingPeopleTalkedAdapter(requireContext(), mutableListOf())
 
         binding.recyclerViewSkipped.addItemDecoration(MeetingPeopleTalkedItemDecoration())
         binding.recyclerViewSkipped.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewSkipped.adapter = MeetingPeopleSkippedAdapter(this, this, mutableListOf())
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewSkipped.adapter =
+            MeetingPeopleSkippedAdapter(requireContext(), this, mutableListOf())
+
+        binding.noSkippedUsers.visibility = View.VISIBLE
+        binding.recyclerViewSkipped.visibility = View.INVISIBLE
+
+        viewModel.teamMembers.observe(viewLifecycleOwner) { listWrapper ->
+            val grouped = listWrapper.groupBy { it.status }
+
+            val talkingList = grouped[TeamMemberStatus.TALKING] ?: emptyList()
+            val comingList = grouped[TeamMemberStatus.COMING] ?: emptyList()
+
+            (talkingList + comingList).let {
+                binding.recyclerViewActive.adapter =
+                    MeetingPeopleTalkingAdapter(
+                        requireContext(),
+                        this,
+                        it.toMutableList()
+                )
+            }
+
+            val talkedList = grouped[TeamMemberStatus.TALKED] ?: emptyList()
+
+            binding.talkedLabel.visibility =
+                if (talkedList.isEmpty()) View.GONE else View.VISIBLE
+            binding.talkedDivider.visibility =
+                if (talkedList.isEmpty()) View.GONE else View.VISIBLE
+
+            (binding.recyclerViewTalked.adapter as MeetingPeopleTalkedAdapter).handle(
+                talkedList,
+                elapsedTalking
+            )
+
+            val skippedList = grouped[TeamMemberStatus.SKIPPED] ?: emptyList()
+
+            binding.noSkippedUsers.visibility =
+                if (skippedList.isEmpty()) View.VISIBLE else View.INVISIBLE
+            binding.recyclerViewSkipped.visibility =
+                if (skippedList.isEmpty()) View.INVISIBLE else View.VISIBLE
+
+            (binding.recyclerViewSkipped.adapter as MeetingPeopleSkippedAdapter).handle(skippedList)
+        }
     }
 
-    override fun onTalked(teamMember: TeamMember, elapsedTalking: Int) {
-        binding.talkedLabel.visibility = View.VISIBLE
-        binding.talkedDivider.visibility = View.VISIBLE
+    override fun onTalked(teamMember: TeamMember, elapsedTalking: Int) =
+        viewModel.setTalked(teamMember, elapsedTalking)
 
-        (binding.recyclerViewTalked.adapter as? MeetingPeopleTalkedAdapter)?.add(teamMember, elapsedTalking)
-    }
+    override fun onSkipped(teamMember: TeamMember) =
+        viewModel.setSkipped(teamMember)
 
-    override fun onSkipped(teamMember: TeamMember) {
-        setSkippedUsers()
-        (binding.recyclerViewSkipped.adapter as? MeetingPeopleSkippedAdapter)?.add(teamMember)
-    }
+    override fun onBroughtBack(teamMember: TeamMember) =
+        viewModel.setTalking(teamMember)
 
     override fun onCollapsed() {
         binding.scrollView.setOnScrollChangeListener(defaultScrollListener)
-    }
-
-    override fun registerSecondIntervalListener(listener: SecondIntervalListener) {
-        meetingTimer.registerListener(listener)
-    }
-
-    override fun unregisterSecondIntervalListener(listener: SecondIntervalListener) {
-        meetingTimer.unregisterListener(listener)
     }
 
     override fun onExpanded() {
@@ -130,34 +155,23 @@ class MeetingFragment: Fragment() {
     }
 
     override fun onEnd() {
-        meetingTimer.stop()
-
         binding.collapseOverlayButton.visibility = View.INVISIBLE
         binding.collapseOverlayButton.isClickable = false
         binding.leaveMeetingButton.visibility = View.INVISIBLE
         binding.finishedCardView.visibility = View.VISIBLE
 
-        binding.finishedCardView.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if(binding.finishedCardView.height > 0 || binding.finishedCardView.width > 0) {
-                    val slideDown = AnimationUtils.loadAnimation(applicationContext,
-                        R.anim.slide_down
-                    )
-                    binding.finishedCardView.startAnimation(slideDown)
-                }
+        binding.finishedCardView.viewTreeObserver.addOnGlobalLayoutListener {
+            if (binding.finishedCardView.height > 0 || binding.finishedCardView.width > 0) {
+                val slideDown = AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.slide_down
+                )
+                binding.finishedCardView.startAnimation(slideDown)
             }
-        })
+        }
 
         collapseOverlay()
-        binding.scrollView.setOnScrollChangeListener { _, _, _, _, _ ->  }
-    }
-
-    override fun onBroughtBack(teamMember: TeamMember) {
-        (binding.recyclerViewActive.adapter as? MeetingPeopleTalkingAdapter)?.add(teamMember)
-
-        if((binding.recyclerViewSkipped.adapter as? MeetingPeopleSkippedAdapter)?.dataSet?.isEmpty() == true) {
-            setNoSkippedUsers()
-        }
+        binding.scrollView.setOnScrollChangeListener { _, _, _, _, _ -> }
     }
 
     private fun collapseOverlay() {
@@ -167,9 +181,11 @@ class MeetingFragment: Fragment() {
             .translationY((binding.overlay.height - binding.timer.height - binding.timer.marginTop - binding.timer.marginBottom).toFloat())
             .withEndAction {
                 binding.collapseOverlayButton.setImageDrawable(
-                    ContextCompat.getDrawable(this,
+                    ContextCompat.getDrawable(
+                        requireContext(),
                         R.drawable.ic_baseline_keyboard_arrow_up_24
-                    ))
+                    )
+                )
                 binding.collapseOverlayButton.setOnClickListener { expandOverlay() }
             }
     }
@@ -181,31 +197,13 @@ class MeetingFragment: Fragment() {
             .translationY(0F)
             .withEndAction {
                 binding.collapseOverlayButton.setImageDrawable(
-                    ContextCompat.getDrawable(this,
+                    ContextCompat.getDrawable(
+                        requireContext(),
                         R.drawable.ic_baseline_keyboard_arrow_down_24
                     )
                 )
 
                 binding.collapseOverlayButton.setOnClickListener { collapseOverlay() }
             }
-    }
-
-    private fun setNoSkippedUsers() {
-        binding.noSkippedUsers.visibility = View.VISIBLE
-        binding.recyclerViewSkipped.visibility = View.INVISIBLE
-    }
-
-    private fun setSkippedUsers() {
-        binding.noSkippedUsers.visibility = View.INVISIBLE
-        binding.recyclerViewSkipped.visibility = View.VISIBLE
-    }
-
-    override fun onSecondPassed() {
-        totalElapsedSeconds++
-        binding.timer.text = totalElapsedSeconds.toHHmmssFormat()
-    }
-
-    override fun onFinish() {
-        //Do nothing
     }
 }

@@ -17,4 +17,5 @@
     <string name="view_statistics_button">View statistics</string>
     <string name="popper_icon_content_description">Popper party icon</string>
     <string name="meeting_screen_label">Meeting Screen</string>
+    <string name="view_more_label">%d more</string>
 </resources>

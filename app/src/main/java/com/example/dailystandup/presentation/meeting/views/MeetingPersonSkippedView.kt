@@ -1,4 +1,4 @@
-package com.example.dailystandup.utils.views
+package com.example.dailystandup.presentation.meeting.views
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,4 +1,4 @@
-package com.example.dailystandup.utils.views
+package com.example.dailystandup.presentation.meeting.views
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -38,7 +38,7 @@ class MeetingPersonActiveView(context: Context, attrs: AttributeSet?, defStyle: 
         get() = binding.tasksButton.text
         set(value) { binding.tasksButton.text = value }
 
-    var elapsedSeconds: Int = 0
+    var elapsedSeconds: Long = 0
 
     constructor(context: Context): this(context, null, 0)
 
@@ -68,6 +68,7 @@ class MeetingPersonActiveView(context: Context, attrs: AttributeSet?, defStyle: 
     fun setProfilePicture(bitmap: Bitmap?) = bitmap?.let { binding.profilePicture.setImageBitmap(it) }
 
     fun setProfilePicture(drawable: Drawable?) = drawable?.let { binding.profilePicture.setImageDrawable(it) }
+
     fun setSkippedButtonEnabled(boolean: Boolean) {
         binding.skipButton.isEnabled = boolean
     }

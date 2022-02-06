@@ -1,4 +1,4 @@
-package com.example.dailystandup.presentation.di
+package com.example.dailystandup.presentation.di.core
 
 import com.example.dailystandup.data.local.repository.meeting.datasource.MeetingCacheDataSource
 import com.example.dailystandup.data.local.repository.meeting.datasourceimpl.MeetingCacheDataSourceImpl

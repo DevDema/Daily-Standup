@@ -1,10 +1,10 @@
-package com.example.dailystandup.utils.adapters
+package com.example.dailystandup.presentation.meeting.adapters
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class MeetingPeopleTalkedItemDecoration: RecyclerView.ItemDecoration() {
+class MeetingPeopleItemDecoration: RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -14,7 +14,9 @@ class MeetingPeopleTalkedItemDecoration: RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        outRect.right = 20
-        outRect.bottom = 20
+        outRect.left = 10
+        outRect.right = 10
+
+        outRect.top = if (parent.getChildLayoutPosition(view) >= 0) 20 else 0
     }
 }

@@ -1,4 +1,10 @@
 package com.example.dailystandup.domain.usecase
 
-class CloseMeetingUseCase {
+import com.example.dailystandup.domain.repository.MeetingRepository
+
+class CloseMeetingUseCase(private val meetingRepository: MeetingRepository) {
+
+    suspend fun execute() {
+
+    }
 }

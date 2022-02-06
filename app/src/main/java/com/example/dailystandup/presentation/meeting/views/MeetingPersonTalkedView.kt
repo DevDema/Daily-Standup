@@ -1,4 +1,4 @@
-package com.example.dailystandup.utils.views
+package com.example.dailystandup.presentation.meeting.views
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,7 +9,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.dailystandup.R
 import com.example.dailystandup.databinding.LayoutPersonTalkedBinding
-import com.example.dailystandup.utils.toHHmmssFormat
 
 open class MeetingPersonTalkedView(context: Context, attrs: AttributeSet?, defStyle: Int): CardView(context, attrs, defStyle) {
     private lateinit var binding: LayoutPersonTalkedBinding
