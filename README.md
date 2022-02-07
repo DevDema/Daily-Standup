@@ -14,7 +14,7 @@ It is enough to open the project in Android Studio (or any IDE you like) and get
 ## Views
 
 This application shows a mock meeting you could be in.
-You can _Call next_ to the subsequent person that has to talk, _Skip_ them if they are missing for today's meeting, or look at their _Tasks_ in this sprint! (**WIP**)
+You can _Call next_ to the subsequent person that has to talk, _Skip_ them if they are missing for today's meeting, or look at their _Tasks_ in this sprint! (**WIP**).\
 Meeting screens:\
 ![Normal meeting](screenshots/normal.png)
 ![Meeting with people who talked](screenshots/talked.png)
