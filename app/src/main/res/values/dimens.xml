@@ -5,4 +5,5 @@
     <dimen name="meet_title_max">150dp</dimen>
     <dimen name="meet_title_min">120dp</dimen>
     <dimen name="dimen_tooltip_icon">30dp</dimen>
+    <dimen name="distance_from_screen">20dp</dimen>
 </resources>
