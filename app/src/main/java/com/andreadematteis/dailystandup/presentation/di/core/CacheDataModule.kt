@@ -2,6 +2,10 @@ package com.andreadematteis.dailystandup.presentation.di.core
 
 import com.andreadematteis.dailystandup.data.repository.meeting.datasource.MeetingCacheDataSource
 import com.andreadematteis.dailystandup.data.repository.meeting.datasourceimpl.MeetingCacheDataSourceImpl
+import com.andreadematteis.dailystandup.data.repository.team.datasource.TeamCacheDataSource
+import com.andreadematteis.dailystandup.data.repository.team.datasource.TeamLocalDataSource
+import com.andreadematteis.dailystandup.data.repository.team.datasourceimpl.TeamCacheDataSourceImpl
+import com.andreadematteis.dailystandup.data.repository.team.datasourceimpl.TeamLocalDataSourceImpl
 import com.andreadematteis.dailystandup.data.repository.teammember.datasource.TeamMemberCacheDataSource
 import com.andreadematteis.dailystandup.data.repository.teammember.datasourceimpl.TeamMemberCacheDataSourceImpl
 import dagger.Module
@@ -23,4 +27,9 @@ class CacheDataModule {
     @Provides
     fun provideTeamMemberCacheDataSource(): TeamMemberCacheDataSource =
         TeamMemberCacheDataSourceImpl()
+
+    @Singleton
+    @Provides
+    fun provideTeamCacheDataSource(): TeamCacheDataSource =
+        TeamCacheDataSourceImpl()
 }

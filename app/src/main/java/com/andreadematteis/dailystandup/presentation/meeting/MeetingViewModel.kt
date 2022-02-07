@@ -73,19 +73,14 @@ class MeetingViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            loadMeetingUseCase.execute(1).let { meetingAndMembers ->
-                val list = meetingAndMembers.teamMembers.mapIndexed { index, member ->
-                    TeamMemberWrapper(
-                        member,
-                        if (index == 0) TeamMemberStatus.TALKING else TeamMemberStatus.COMING
-                    )
-                }
-                teamMemberList = list.toMutableList()
+            loadMeetingUseCase.execute(1).let { meetingTeamMemberWrapper ->
+                val list = meetingTeamMemberWrapper.memberWrapperList.toMutableList()
+                teamMemberList = list
 
                 _teamMembers.postValue(list)
 
                 _meeting.postValue(
-                    meetingAndMembers.meeting
+                    meetingTeamMemberWrapper.meeting
                 )
             }
             countDownTimer.start()

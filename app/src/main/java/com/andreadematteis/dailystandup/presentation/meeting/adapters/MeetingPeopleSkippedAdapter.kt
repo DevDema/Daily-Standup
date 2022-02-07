@@ -28,10 +28,11 @@ class MeetingPeopleSkippedAdapter(
         (holder.itemView as MeetingPersonSkippedView).run {
             val person = dataSet[position].member
             val image = dataSet[position].avatar
+            val team = dataSet[position].team
 
             setCardBackgroundColor(ContextCompat.getColor(context, R.color.gray_200))
             title = "${person.name} ${person.surname}"
-            subtitle = person.teamId.toString() // TODO: retrieve the team too
+            subtitle = team.name
 
             setProfilePicture(image)
             setButtonEnabled(!isEnd)

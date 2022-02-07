@@ -1,9 +1,12 @@
 package com.andreadematteis.dailystandup.presentation.di.core
 
 import com.andreadematteis.dailystandup.data.local.dao.MeetingDao
+import com.andreadematteis.dailystandup.data.local.dao.TeamDao
 import com.andreadematteis.dailystandup.data.local.dao.TeamMemberDao
 import com.andreadematteis.dailystandup.data.repository.meeting.datasource.MeetingLocalDataSource
 import com.andreadematteis.dailystandup.data.repository.meeting.datasourceimpl.MeetingLocalDataSourceImpl
+import com.andreadematteis.dailystandup.data.repository.team.datasource.TeamLocalDataSource
+import com.andreadematteis.dailystandup.data.repository.team.datasourceimpl.TeamLocalDataSourceImpl
 import com.andreadematteis.dailystandup.data.repository.teammember.datasource.TeamMemberLocalDataSource
 import com.andreadematteis.dailystandup.data.repository.teammember.datasourceimpl.TeamMemberLocalDataSourceImpl
 import dagger.Module
@@ -25,4 +28,9 @@ class LocalDataModule {
     @Provides
     fun provideTeamMemberLocalDataSource(teamMemberDao: TeamMemberDao): TeamMemberLocalDataSource =
         TeamMemberLocalDataSourceImpl(teamMemberDao)
+
+    @Singleton
+    @Provides
+    fun provideTeamLocalDataSource(teamDao: TeamDao): TeamLocalDataSource =
+        TeamLocalDataSourceImpl(teamDao)
 }

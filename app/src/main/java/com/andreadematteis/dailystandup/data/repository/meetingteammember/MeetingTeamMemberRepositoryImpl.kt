@@ -13,7 +13,13 @@ class MeetingTeamMemberRepositoryImpl(
     override suspend fun getMeetingTeamMembers(): List<MeetingTeamMember> = getMeetingTeamMembersFromDb()
 
     override suspend fun saveMeetingTeamMember(meetingTeamMember: MeetingTeamMember): Long {
-        TODO("Not yet implemented")
+        val id = meetingLocalDataSource.saveMeetingTeamMember(meetingTeamMember)
+
+        if(id > 0L) {
+            meetingCacheDataSource.saveMeetingTeamMember(meetingTeamMember)
+        }
+
+        return id
     }
 
     private suspend fun getMeetingTeamMembersFromDb(): List<MeetingTeamMember> = getMeetingTeamMembersFromCache().run {

@@ -58,9 +58,10 @@ class MeetingPeopleTalkingAdapter(
         val person = memberWrapper.member
         val image = memberWrapper.avatar
         val elapsedSeconds = memberWrapper.timeMillis
+        val team = memberWrapper.team
 
         title = "${person.name} ${person.surname}"
-        subtitle = person.teamId.toString() // TODO: retrieve the team too
+        subtitle = team.name
         elapsedTimeText = elapsedSeconds.millisToHHmmssFormat()
 
         setProfilePicture(image)
@@ -90,9 +91,10 @@ class MeetingPeopleTalkingAdapter(
     private fun onBindViewActive(view: MeetingPersonView, position: Int) = view.run {
         val person = collapsableDataSet[position].member
         val image = collapsableDataSet[position].avatar
+        val team = collapsableDataSet[position].team
 
         title = "${person.name} ${person.surname}"
-        subtitle = person.teamId.toString() // TODO: retrieve the team too
+        subtitle = team.name
 
         setProfilePicture(image)
     }

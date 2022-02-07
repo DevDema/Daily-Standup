@@ -32,4 +32,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideTeamMemberDao(database: DailyStandupDatabase) = database.teamMemberDao()
+
+    @Singleton
+    @Provides
+    fun provideTeamDao(database: DailyStandupDatabase) = database.teamDao()
 }

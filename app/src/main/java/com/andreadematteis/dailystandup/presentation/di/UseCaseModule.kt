@@ -1,6 +1,7 @@
 package com.andreadematteis.dailystandup.presentation.di
 
 import com.andreadematteis.dailystandup.domain.repository.MeetingRepository
+import com.andreadematteis.dailystandup.domain.repository.TeamRepository
 import com.andreadematteis.dailystandup.domain.usecase.CloseMeetingUseCase
 import com.andreadematteis.dailystandup.domain.usecase.LoadMeetingUseCase
 import dagger.Module
@@ -15,8 +16,8 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideLoadMeetingUseCase(meetingRepository: MeetingRepository): LoadMeetingUseCase =
-        LoadMeetingUseCase(meetingRepository)
+    fun provideLoadMeetingUseCase(meetingRepository: MeetingRepository, teamRepository: TeamRepository): LoadMeetingUseCase =
+        LoadMeetingUseCase(meetingRepository, teamRepository)
 
     @Singleton
     @Provides

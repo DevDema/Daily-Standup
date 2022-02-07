@@ -1,10 +1,12 @@
 package com.andreadematteis.dailystandup.presentation.meeting
 
 import android.graphics.Bitmap
+import com.andreadematteis.dailystandup.data.local.model.Team
 import com.andreadematteis.dailystandup.data.local.model.TeamMember
 
 data class TeamMemberWrapper(
     val member: TeamMember,
+    val team: Team,
     var status: TeamMemberStatus = TeamMemberStatus.COMING,
     val avatar: Bitmap? = null,
     var timeMillis: Long = 0
